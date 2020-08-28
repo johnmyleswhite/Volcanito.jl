@@ -3,7 +3,7 @@
 Macro expansion roughly works as follows:
 
 1. First, each expression is analyzed syntactically using a fixed set of
-    [expression rules](docs/expression_rules.md) to determine which symbols in
+    [expression rules](https://github.com/johnmyleswhite/Volcanito.jl/blob/master/docs/expression_rules.md) to determine which symbols in
     the expression should be assumed to be columns in the table being processed.
 2. Second, each expression is translated into a
     [FunctionSpec](function_specs.md) object that represents the expression in

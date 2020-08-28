@@ -25,7 +25,7 @@ ambitious:
     of primitive operations on DataFrames from
     [DataFrames.jl](https://github.com/JuliaData/DataFrames.jl).
 
-For more details, see [docs/architecture.md](docs/architecture.md).
+For more details, see [docs/architecture.md](https://github.com/johnmyleswhite/Volcanito.jl/blob/master/docs/architecture.md).
 
 # Example Usage
 
