@@ -1,0 +1,10 @@
+name = "Volcanito"
+uuid = "7290bc55-f3b7-4726-a75b-84138a7e031c"
+authors = ["John Myles White <jmw@johnmyleswhite.com>"]
+version = "0.1.0"
+
+[deps]
+BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
+DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+MacroTools = "1914dd2f-81c6-5fcd-8719-6d5c9610ff09"
+Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
