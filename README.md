@@ -13,6 +13,10 @@ ambitious:
     * `@aggregate_vector`
     * `@order_by`
     * `@limit`
+    * `@inner_join`
+    * `@left_join`
+    * `@right_join`
+    * `@outer_join`
 * Lower those user-facing macros to objects that lazily represent those
     operations and can be used to build a simplified logical plan:
     * `Select`
@@ -21,6 +25,11 @@ ambitious:
     * `AggregateVector`
     * `OrderBy`
     * `Limit`
+    * `InnerJoin`
+    * `LeftJoin`
+    * `RightJoin`
+    * `OuterJoin`
+
 * Define a basic implementation of how to carry out the logical plan in terms
     of primitive operations on DataFrames from
     [DataFrames.jl](https://github.com/JuliaData/DataFrames.jl).
@@ -43,7 +52,8 @@ import Volcanito:
     @group_by,
     @aggregate_vector,
     @order_by,
-    @limit
+    @limit,
+    @inner_join
 
 df = DataFrame(
     a = rand(10_000),
@@ -66,6 +76,18 @@ df = DataFrame(
 @order_by(df, a + b)
 
 @limit(df, 10)
+
+@inner_join(
+    a = df,
+    b = @aggregate_vector(
+        @group_by(df, c),
+        m_a = mean(a),
+        m_b = mean(b),
+        n_a = length(a),
+        n_b = length(b),
+    ),
+    a.c == b.c,
+)
 ```
 
 To make it easier to understand how things work, the examples above all exploit

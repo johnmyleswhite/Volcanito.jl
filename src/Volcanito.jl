@@ -7,6 +7,10 @@ export
     @aggregate_vector,
     @order_by,
     @limit,
+    @inner_join,
+    @left_join,
+    @right_join,
+    @outer_join,
     materialize
 
 import DataFrames
@@ -28,6 +32,7 @@ include("query/expression_operations/forms/tuple_form.jl")
 include("query/expression_operations/forms/broadcast_form.jl")
 include("query/expression_operations/function_spec/as_expr.jl")
 include("query/expression_operations/function_spec/function_spec.jl")
+include("query/expression_operations/join_utils.jl")
 
 include("query/macros/select.jl")
 include("query/macros/where.jl")
@@ -35,6 +40,10 @@ include("query/macros/group_by.jl")
 include("query/macros/aggregate_vector.jl")
 include("query/macros/order_by.jl")
 include("query/macros/limit.jl")
+include("query/macros/inner_join.jl")
+include("query/macros/left_join.jl")
+include("query/macros/right_join.jl")
+include("query/macros/outer_join.jl")
 
 include("logical_nodes/logical_node.jl")
 include("logical_nodes/projection.jl")
@@ -43,6 +52,10 @@ include("logical_nodes/group_by.jl")
 include("logical_nodes/aggregate_vector.jl")
 include("logical_nodes/order_by.jl")
 include("logical_nodes/limit.jl")
+include("logical_nodes/inner_join.jl")
+include("logical_nodes/left_join.jl")
+include("logical_nodes/right_join.jl")
+include("logical_nodes/outer_join.jl")
 
 include("physical_operations/dataframes/iterators.jl")
 include("physical_operations/dataframes/materialize.jl")
@@ -52,5 +65,9 @@ include("physical_operations/dataframes/group_by.jl")
 include("physical_operations/dataframes/aggregate_vector.jl")
 include("physical_operations/dataframes/order_by.jl")
 include("physical_operations/dataframes/limit.jl")
+include("physical_operations/dataframes/inner_join.jl")
+include("physical_operations/dataframes/left_join.jl")
+include("physical_operations/dataframes/right_join.jl")
+include("physical_operations/dataframes/outer_join.jl")
 
 end

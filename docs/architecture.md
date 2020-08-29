@@ -17,6 +17,10 @@ macros are:
 * `@aggregate_vector`
 * `@order_by`
 * `@limit`
+* `@inner_join`
+* `@left_join`
+* `@right_join`
+* `@outer_join`
 
 Each of these macros, except for `@aggregate_vector`, is meant to be thought of
 as if users were evaluating expressions against rows in the table in a system in

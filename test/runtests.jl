@@ -34,6 +34,10 @@ paths = (
     "query/macros/aggregate_vector.jl",
     "query/macros/order_by.jl",
     "query/macros/limit.jl",
+    "query/macros/inner_join.jl",
+    "query/macros/left_join.jl",
+    "query/macros/right_join.jl",
+    "query/macros/outer_join.jl",
 
     "logical_nodes/projection.jl",
     "logical_nodes/selection.jl",
@@ -41,6 +45,10 @@ paths = (
     "logical_nodes/aggregate_vector.jl",
     "logical_nodes/order_by.jl",
     "logical_nodes/limit.jl",
+    "logical_nodes/inner_join.jl",
+    "logical_nodes/left_join.jl",
+    "logical_nodes/right_join.jl",
+    "logical_nodes/outer_join.jl",
 
     "physical_operations/dataframes/iterators.jl",
     "physical_operations/dataframes/projection.jl",
@@ -49,6 +57,10 @@ paths = (
     "physical_operations/dataframes/aggregate_vector.jl",
     "physical_operations/dataframes/order_by.jl",
     "physical_operations/dataframes/limit.jl",
+    "physical_operations/dataframes/inner_join.jl",
+    "physical_operations/dataframes/left_join.jl",
+    "physical_operations/dataframes/right_join.jl",
+    "physical_operations/dataframes/outer_join.jl",
 )
 
 @testset "All tests" begin

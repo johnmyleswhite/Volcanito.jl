@@ -6,7 +6,6 @@ import Volcanito: validate
 @testset "validate" begin
     @test_throws Exception validate(:([x + 1 for x in 1:10]))
     @test_throws Exception validate(:((a; b; c;)))
-    @test_throws Exception validate(:(@foo(x)))
     @test_throws Exception validate(:(import Foo))
     @test_throws Exception validate(:(export foo))
     @test_throws Exception validate(:(while true; 1; end))
@@ -16,7 +15,6 @@ import Volcanito: validate
     @test_throws Exception validate(:(let x = 1; x; end))
     @test_throws Exception validate(:(struct Foo; x; end))
     @test_throws Exception validate(:(mutable struct Foo; x; end))
-    @test_throws Exception validate(:(1 + sin(@foo(x))))
     @test validate(:x) === nothing
     @test validate(1) === nothing
     @test validate("a") === nothing

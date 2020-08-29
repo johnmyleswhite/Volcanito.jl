@@ -25,7 +25,6 @@ function validate(@nospecialize(e::Any))::Nothing
     heads = (
         :comprehension,
         :block,
-        :macrocall,
         :import,
         :export,
         :while,
