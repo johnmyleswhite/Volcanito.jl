@@ -4,13 +4,17 @@
 A logical node that represents a selection operation. It has two fields:
 
 1. `source`: A relation that will be selected.
-2. `predicate`: A single `FunctionSpec` object that defines the predictate.
+2. `predicate`: A single `Expression` object that defines the predictate.
 """
-struct Selection{T1, T2} <: LogicalNode
-    source::T1
-    predicate::T2
+struct Selection{T} <: LogicalNode
+    source::T
+    predicate::Expression
 end
 
-function Base.repr(io::IO, node::Selection)
-    "A Selection node"
+function Base.print(io::IO, node::Selection)
+    println(io, "Selection LogicalNode")
+    # TODO: Print source here.
+    for e in (node.predicate, )
+        println(io, e)
+    end
 end

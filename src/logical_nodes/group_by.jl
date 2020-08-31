@@ -1,17 +1,21 @@
 """
 # Description
 
-A logical node that represents a group by operation. It has two fields:
+A logical node that represents a group-by operation. It has two fields:
 
 1. `source`: A relation that will be divided into groups.
-2. `transforms`: A tuple of `FunctionSpec` objects that define the groups that
+2. `expressions`: A tuple of `Expression` objects that define the groups that
     will be used downstream.
 """
-struct GroupBy{T1, T2} <: LogicalNode
-    source::T1
-    transforms::T2
+struct GroupBy{T, N} <: LogicalNode
+    source::T
+    expressions::NTuple{N, Expression}
 end
 
-function Base.repr(io::IO, node::GroupBy)
-    "A GroupBy node"
+function Base.print(io::IO, node::GroupBy)
+    println(io, "GroupBy LogicalNode")
+    # TODO: Print source here.
+    for e in node.expressions
+        println(io, e)
+    end
 end

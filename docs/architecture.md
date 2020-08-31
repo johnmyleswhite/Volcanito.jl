@@ -47,10 +47,10 @@ explicitly.)
 Each node consists of one or more sources and then the expressions that need
 to be computed to carry out the node's core operation.
 
-Each expression is described in terms of a `FunctionSpec` object, which is a
+Each expression is described in terms of a `Expression` object, which is a
 backend-agnostic representation of the expressions passed to the user-facing
-macros. Each `FunctionSpec` contains several fields described in
-[docs/function_specs.md](https://github.com/johnmyleswhite/Volcanito.jl/blob/master/docs/function_specs.md).
+macros. Each `Expression` contains several fields described in
+[docs/expressions.md](https://github.com/johnmyleswhite/Volcanito.jl/blob/master/docs/expressions.md).
 
 # Part 3: Physical Operations
 

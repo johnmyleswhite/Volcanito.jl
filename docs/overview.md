@@ -23,8 +23,8 @@ depth:
         approach to automatic application of three-valued logic.
     * [docs/logical_nodes.md](https://github.com/johnmyleswhite/Volcanito.jl/blob/master/docs/logical_nodes.md): Read this to understand
     the logical nodes Volcanito uses to represent a query.
-        * [docs/function_specs.md](https://github.com/johnmyleswhite/Volcanito.jl/blob/master/docs/function_specs.md) Read this to
-            understand the `FunctionSpec` objects that logical nodes contain.
+        * [docs/expressions.md](https://github.com/johnmyleswhite/Volcanito.jl/blob/master/docs/expressions.md) Read this to
+            understand the `Expression` objects that logical nodes contain.
     * [docs/physical_operations.md](https://github.com/johnmyleswhite/Volcanito.jl/blob/master/docs/physical_operations.md): Read this to
     understand the physical operations Volcanito uses to execute a query against
     a DataFrame.

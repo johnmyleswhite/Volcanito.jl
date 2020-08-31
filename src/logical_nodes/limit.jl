@@ -11,6 +11,8 @@ struct Limit{T} <: LogicalNode
     n::Int
 end
 
-function Base.repr(io::IO, node::Limit)
-    "A Limit node"
+function Base.print(io::IO, node::Limit)
+    println(io, "Limit LogicalNode")
+    # TODO: Print source here.
+    println(io, node.n)
 end

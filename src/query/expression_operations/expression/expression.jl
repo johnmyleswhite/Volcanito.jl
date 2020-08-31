@@ -8,7 +8,7 @@ of the supported forms.
 # Examples
 
 ```
-julia> FunctionSpec(
+julia> Expression(
     :x,
     :(a + b),
     :(x = a + b),
@@ -21,24 +21,24 @@ julia> FunctionSpec(
 )
 ```
 """
-struct FunctionSpec{T1, N, T2, T3, T4}
+struct Expression{N, T1, T2}
     alias::Symbol
-    body::T1
-    raw_form::T2
+    body::Any
+    raw_form::Any
     input_columns::NTuple{N, Symbol}
     column_index::Dict{Symbol, Int}
-    tuple_form::T3
-    broadcast_form::T4
+    tuple_form::T1
+    broadcast_form::T2
     explicit_alias::Bool
     is_constant::Bool
     is_column::Bool
 end
 
 # TODO: Base.show
-function Base.show(io::IO, x::FunctionSpec)
+function Base.show(io::IO, x::Expression)
     @printf(
         """
-        == FunctionSpec object ==
+        == Expression object ==
 
         alias: %s
         body: %s
@@ -64,7 +64,9 @@ function Base.show(io::IO, x::FunctionSpec)
     nothing
 end
 
-# TODO: Base.repr
+function Base.print(io::IO, x::Expression)
+    print(io, String(Symbol(x.raw_form)))
+end
 
 """
 # Description
@@ -87,7 +89,7 @@ julia>
 ```
 """
 # TODO: Document this
-function function_spec_expr(@nospecialize(e::Any))::Expr
+function expression_expr(@nospecialize(e::Any))::Expr
     # TODO: Support passes as an argument.
 
     alias, body = get_alias(e)
@@ -97,7 +99,7 @@ function function_spec_expr(@nospecialize(e::Any))::Expr
     index = index_column_names(column_names)
 
     quote
-        FunctionSpec(
+        Expression(
             $(QuoteNode(alias)),
             $(QuoteNode(body)),
             $(QuoteNode(e)),
@@ -133,6 +135,6 @@ julia>
 ```
 """
 # TODO: Document this
-macro function_spec(e::Any)
-    function_spec_expr(e)
+macro expression(e::Any)
+    expression_expr(e)
 end

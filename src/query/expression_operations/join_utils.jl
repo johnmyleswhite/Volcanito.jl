@@ -47,7 +47,7 @@ end
 # analyze_simple_equijoin_expression(:(a.x == b.y)) == ((:a, :b), (:x, :y))
 
 # TODO: Document this.
-function _predicate_to_pair(predicate::FunctionSpec, lhs, rhs)
+function _predicate_to_pair(predicate::Expression, lhs, rhs)
     (lhs_alias, rhs_alias), (lhs_column, rhs_column) = (
         _analyze_simple_equijoin_expression(predicate.body)
     )

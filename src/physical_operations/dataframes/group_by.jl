@@ -1,19 +1,10 @@
 # TODO: Document this
-function materialize(op::GroupBy)
-    tmp = copy(materialize(op.source), copycols=false)
+function materialize(node::GroupBy)
+    # TODO: Don't make a copy if all group keys are columns
+    tmp = copy(materialize(node.source), copycols=false)
     # TODO: Handle possible conflicts here.
-    for spec in op.transforms
-        if spec.is_constant
-            tmp[spec.alias] = new_column(materialize(op.source), spec.body)
-        elseif spec.is_column
-            tmp[spec.alias] = copy_column(materialize(op.source), spec.body)
-        else
-            tmp[spec.alias] = gen_column(
-                tmp,
-                spec.tuple_form,
-                spec.input_columns,
-            )
-        end
+    for e in node.expressions
+        tmp[e.alias] = generate_column(node.source, e)
     end
-    DataFrames.groupby(tmp, vcat([s.alias for s in op.transforms]...))
+    DataFrames.groupby(tmp, vcat([e.alias for e in node.expressions]...))
 end

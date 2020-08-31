@@ -11,6 +11,6 @@ macro where(src, exprs...)
         :call,
         :Selection,
         esc(src),
-        function_spec_expr(e),
+        expression_expr(e),
     )
 end

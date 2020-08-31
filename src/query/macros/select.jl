@@ -6,7 +6,7 @@ macro select(src, exprs...)
         esc(src),
         Expr(
             :tuple,
-            function_spec_expr.(exprs)...,
+            expression_expr.(exprs)...,
         ),
     )
 end

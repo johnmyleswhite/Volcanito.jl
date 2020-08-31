@@ -28,3 +28,5 @@ end
 function copy_column(src, column_name)
     copy(src[column_name])
 end
+
+# TODO: One wrapper fpr creating a column.

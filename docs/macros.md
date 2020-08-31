@@ -6,7 +6,7 @@ Macro expansion roughly works as follows:
     [expression rules](https://github.com/johnmyleswhite/Volcanito.jl/blob/master/docs/expression_rules.md) to determine which symbols in
     the expression should be assumed to be columns in the table being processed.
 2. Second, each expression is translated into a
-    [FunctionSpec](function_specs.md) object that represents the expression in
+    [Expression](expressions.md) object that represents the expression in
     several forms that can be used by different engines based on their internal
     data structures. The primary forms are:
     i. Raw form, which is simply the original quoted expression. An example
@@ -33,7 +33,7 @@ and generate output like:
 Projection(
     df,
     (
-        FunctionSpec(
+        Expression(
             :x,
             :(a + b),
             :(x = a + b),

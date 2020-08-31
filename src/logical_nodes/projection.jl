@@ -4,13 +4,17 @@
 A logical node that represents a projection operation. It has two fields:
 
 1. `source`: A relation that will be projected.
-2. `transforms`: A tuple of `FunctionSpec` objects that define the projection.
+2. `expressions`: A tuple of `Expression` objects that define the projection.
 """
-struct Projection{T1, T2} <: LogicalNode
-    source::T1
-    transforms::T2
+struct Projection{T, N} <: LogicalNode
+    source::T
+    expressions::NTuple{N, Expression}
 end
 
-function Base.repr(io::IO, node::Projection)
-    "A Projection node"
+function Base.print(io::IO, node::Projection)
+    println(io, "Projection LogicalNode")
+    # TODO: Print source here.
+    for e in node.expressions
+        println(io, e)
+    end
 end

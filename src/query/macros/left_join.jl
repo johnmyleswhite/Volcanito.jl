@@ -9,7 +9,7 @@ macro left_join(src1, src2, exprs...)
         ),
         Expr(
             :tuple,
-            function_spec_expr.(exprs)...,
+            expression_expr.(exprs)...,
         ),
     )
 end

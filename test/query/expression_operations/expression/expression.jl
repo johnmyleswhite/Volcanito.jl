@@ -1,10 +1,10 @@
-module TestFunctionSpec
+module TestExpression
 
 import Test: @testset, @test
-import Volcanito: function_spec_expr, @function_spec
+import Volcanito: expression_expr, @expression
 
-@testset "@function_spec(a + b)" begin
-    s = @function_spec(a + b)
+@testset "@expression(a + b)" begin
+    s = @expression(a + b)
 
     @test s.raw_form == :(a + b)
     @test s.input_columns == (:a, :b)
@@ -16,8 +16,8 @@ import Volcanito: function_spec_expr, @function_spec
     @test s.is_column === false
 end
 
-@testset "@function_spec(sin(a + b))" begin
-    s = @function_spec(sin(a + b))
+@testset "@expression(sin(a + b))" begin
+    s = @expression(sin(a + b))
 
     @test s.raw_form == :(sin(a + b))
     @test s.input_columns == (:a, :b)
@@ -29,8 +29,8 @@ end
     @test s.is_column === false
 end
 
-@testset "@function_spec(1)" begin
-    s = @function_spec(1)
+@testset "@expression(1)" begin
+    s = @expression(1)
 
     @test s.raw_form == :(1)
     @test s.input_columns == ()
@@ -42,8 +42,8 @@ end
     @test s.is_column === false
 end
 
-@testset "@function_spec(a)" begin
-    s = @function_spec(a)
+@testset "@expression(a)" begin
+    s = @expression(a)
 
     @test s.raw_form == :a
     @test s.input_columns == (:a, )

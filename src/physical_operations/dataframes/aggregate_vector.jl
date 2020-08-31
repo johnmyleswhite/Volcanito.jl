@@ -1,7 +1,10 @@
-# TODO: Document this
-function materialize(op::AggregateVector)
+"""
+Materialize an `AggregateVector` node over a `DataFrame` by calling
+`DataFrames.combine`.
+"""
+function materialize(node::AggregateVector)
     DataFrames.combine(
-        op.aggregates,
-        materialize(op.source),
+        node.aggregates,
+        materialize(node.source),
     )
 end

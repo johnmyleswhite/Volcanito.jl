@@ -36,6 +36,29 @@ ambitious:
 
 For more details, see [docs/architecture.md](https://github.com/johnmyleswhite/Volcanito.jl/blob/master/docs/architecture.md).
 
+# Goals
+
+Volcanito is a project that I started to explore a few areas in the Julia data
+tools design space:
+
+* *Laziness*: How much value can cross-operation optimizations provide if data
+    tools have access to a full query plan created by lazy wrappers? How many
+    optimization opportunities does the current eager evaluation strategy leave
+    on the table?
+* *Row-Wise Semantics*: Are there substantial challenges to using row-wise
+    semantics everywhere even if DataFrames are stored as columns? Where is
+    usability increased and where is it decreased by moving to a system in which
+    all operations are described in terms of arbitrary Julia expressions over
+    tuples?
+* *Syntactical Optimizations* : How many opportunities for optimization depend
+    upon having access to the source syntax of an expression? For example, can
+    we support arbitrary join predicates, but use source syntax to optimize
+    equijoins?
+* *Generic Fallbacks*: How much of the data tooling can be handled generically
+    in a way that new data formats can plug into trivially? Can we have generic
+    definitions of nested for loop joins and hash joins that work on any source
+    of tuples?
+
 # Example Usage
 
 ```
@@ -88,6 +111,8 @@ df = DataFrame(
     ),
     a.c == b.c,
 )
+
+@aggregate_vector(df, m = mean(a))
 ```
 
 To make it easier to understand how things work, the examples above all exploit

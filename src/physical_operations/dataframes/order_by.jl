@@ -1,9 +1,9 @@
 # TODO: Document this
-function materialize(op::OrderBy)
+function materialize(node::OrderBy)
     sorted_indices = sortperm(
         materialize(
-            Projection(op.source, op.transforms)
+            Projection(node.source, node.expressions)
         )
     )
-    materialize(op.source)[sorted_indices, :]
+    materialize(node.source)[sorted_indices, :]
 end
