@@ -3,7 +3,6 @@ macro aggregate_vector(src, exprs...)
     all_column_names = Set{Symbol}()
 
     for expr in exprs
-        @assert has_alias(expr)
         alias, body = get_alias(expr)
         push!(all_column_names, find_column_names(body)...)
     end
@@ -20,7 +19,10 @@ macro aggregate_vector(src, exprs...)
 
     aggregates_tuple_expr = Expr(
         :tuple,
-        map(e -> esc(e), exprs)...,
+        map(
+            e -> esc(aliased(e)),
+            exprs,
+        )...,
     )
 
     quote

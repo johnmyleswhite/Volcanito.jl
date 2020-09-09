@@ -39,10 +39,12 @@ julia> get_alias(:(x = a + sin(b)))
 function get_alias(@nospecialize(e::Any))::Tuple
     if isa(e, Expr) && e.head == :(=)
         alias, body = e.args[1], e.args[2]
+    elseif isa(e, Expr) && e.head == :macrocall && isa(e.args[1], GlobalRef) && e.args[1].name == Symbol("@cmd")
+        alias, body = Symbol(remove_backticks(Meta.parse(e.args[3]))), e
     else
-        alias, body = Symbol(e), e
+        alias, body = Symbol(remove_backticks(e)), e
     end
-    
+
     validate(body)
 
     alias, body
@@ -50,3 +52,9 @@ end
 
 # TODO: Document this.
 has_alias(e::Any) = isa(e, Expr) && e.head == :(=)
+
+# TODO: Document this.
+function aliased(e)
+    alias, body = get_alias(e)
+    Expr(:(=), alias, body)
+end

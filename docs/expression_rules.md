@@ -24,6 +24,7 @@ syntactic positions from being considered to refer to columns:
     is an `Expr` whose `head == :$`.
 5. The even-numbered positional arguments to a `comparison` expression are
     excluded. In Julia, this is an `Expr` whose `head == :comparison`.
+6. Any expression inside of backticks like `` `mean(col1)` `` is included.
 
 Whenever processing expressions, please process them in the order described
 above. It makes it easier to check completeness because you can treat the list

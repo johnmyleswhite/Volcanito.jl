@@ -56,6 +56,8 @@ function _find_column_names!(
             end
         end
         column_names
+    elseif isa(e, Expr) && e.head == :macrocall && isa(e.args[1], GlobalRef) && e.args[1].name == Symbol("@cmd")
+        push!(column_names, Symbol(e.args[3]))
     elseif isa(e, Expr)
         for i in 1:length(e.args)
             _find_column_names!(e.args[i], column_names)
