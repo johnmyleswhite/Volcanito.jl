@@ -42,8 +42,15 @@ function broadcast_form(
     column_names::NTuple{N, Symbol},
     passes::NamedTuple = (locals=true, lift=false, tvl=true),
 ) where N
+    # Map to gensym's
+    safe_column_names = ntuple(i -> gensym(), length(column_names))
+    mapping = Dict(column_names .=> safe_column_names)
+
+    # Walk down tree replacing real names with safe names
+    body = rewrite_column_names_broadcast(e, mapping)
+
     if passes.locals
-        body = unescape_locals(e)
+        body = unescape_locals(body)
     end
 
     if passes.lift
@@ -54,7 +61,7 @@ function broadcast_form(
         body = tvl(body)
     end
 
-    :(($(column_names...),) -> $body)
+    :(($(safe_column_names...),) -> $body)
 end
 
 # TODO: vector_form

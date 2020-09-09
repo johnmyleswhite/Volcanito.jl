@@ -17,6 +17,7 @@ import DataFrames
 import MacroTools: inexpr, postwalk
 import Printf: @printf
 
+include("query/expression_operations/remove_backticks.jl")
 include("query/expression_operations/validate.jl")
 include("query/expression_operations/get_alias.jl")
 include("query/expression_operations/find_column_names.jl")

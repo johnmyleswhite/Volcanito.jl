@@ -199,3 +199,33 @@ let x = 0.5
     @where(df, a >= $x)
 end
 ```
+
+## Backtick Syntax for Expressing Arbitrary Column Names
+
+As in SQL, Volcanito allows backticks to be used to indicate that an otherwise
+invalid identifier is a column name. This can be used when column names are
+derived from an expression without an alias:
+
+```
+import Pkg
+Pkg.activate(".")
+
+import DataFrames: DataFrame
+
+import Volcanito: @select, @aggregate_vector
+
+import Statistics: mean
+
+df = DataFrame(
+    a = rand(10_000),
+    b = rand(10_000),
+)
+
+@select(
+    @aggregate_vector(df, mean(a)),
+    `mean(a)` + 1,
+)
+```
+
+This trick means that the normal Julia syntax for generating a `Cmd` object is
+not available: use the `@cmd` macro instead to achieve the same effect.
