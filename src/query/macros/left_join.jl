@@ -11,5 +11,6 @@ macro left_join(src1, src2, exprs...)
             :tuple,
             expression_expr.(exprs)...,
         ),
+        :(left::JoinKind),
     )
 end
