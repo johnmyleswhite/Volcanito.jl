@@ -6,5 +6,5 @@ function materialize(node::GroupBy)
     for e in node.expressions
         tmp[e.alias] = generate_column(node.source, e)
     end
-    DataFrames.groupby(tmp, vcat([e.alias for e in node.expressions]...))
+    DataFrames.groupby(tmp, [e.alias for e in node.expressions])
 end
