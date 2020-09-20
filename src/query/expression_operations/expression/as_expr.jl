@@ -44,6 +44,24 @@ function as_expr(@nospecialize(x))::Any
             :(Dict{Symbol, Int}),
             args...,
         )
+    elseif isa(x, Dict{Symbol, Symbol})
+        args = Expr[]
+        for (k, v) in x
+            push!(
+                args,
+                Expr(
+                    :call,
+                    :(=>),
+                    as_expr(k),
+                    as_expr(v),
+                ),
+            )
+        end
+        Expr(
+            :call,
+            :(Dict{Symbol, Symbol}),
+            args...,
+        )
     elseif isa(x, Symbol)
         QuoteNode(x)
     elseif isa(x, Int)

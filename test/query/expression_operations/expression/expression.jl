@@ -12,8 +12,6 @@ import Volcanito: expression_expr, @expression
     @test s.tuple_form((1, 2)) == 1 + 2
     @test s.broadcast_form(1, 2) == 1 + 2
     @test s.explicit_alias === false
-    @test s.is_constant === false
-    @test s.is_column === false
 end
 
 @testset "@expression(sin(a + b))" begin
@@ -25,8 +23,6 @@ end
     @test s.tuple_form((1, 2)) == sin(1 + 2)
     @test s.broadcast_form(1, 2) == sin(1 + 2)
     @test s.explicit_alias === false
-    @test s.is_constant === false
-    @test s.is_column === false
 end
 
 @testset "@expression(1)" begin
@@ -38,8 +34,6 @@ end
     @test s.tuple_form(()) == 1
     @test s.broadcast_form() == 1
     @test s.explicit_alias === false
-    @test s.is_constant === true
-    @test s.is_column === false
 end
 
 @testset "@expression(a)" begin
@@ -51,8 +45,6 @@ end
     @test s.tuple_form((1, )) == 1
     @test s.broadcast_form(1) == 1
     @test s.explicit_alias === false
-    @test s.is_constant === false
-    @test s.is_column === true
 end
 
 end

@@ -1,7 +1,7 @@
 macro left_join(src1, src2, exprs...)
     Expr(
         :call,
-        :LeftJoin,
+        :Join,
         Expr(
             :tuple,
             analyze_src_expr(src1),

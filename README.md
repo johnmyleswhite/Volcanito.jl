@@ -25,10 +25,7 @@ ambitious:
     * `AggregateVector`
     * `OrderBy`
     * `Limit`
-    * `InnerJoin`
-    * `LeftJoin`
-    * `RightJoin`
-    * `OuterJoin`
+    * `Join`
 
 * Define a basic implementation of how to carry out the logical plan in terms
     of primitive operations on DataFrames from
