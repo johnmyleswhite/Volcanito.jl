@@ -226,3 +226,37 @@ df = DataFrame(
 
 This trick means that the normal Julia syntax for generating a `Cmd` object is
 not available: use the `@cmd` macro instead to achieve the same effect.
+
+## Backtick Syntax + Interpolation for Expressing Dynamic Column Names
+
+One challenge with metaprogramming approaches like Volcanito employs is that it
+can be difficult to use these techniques in functions in which the column names
+to be computed aginst are not known statically. To address this, Volcanito
+further coopts backtick syntax and combines it with interpolation syntax to make
+it possible to indicate that column names are dynamic and only known at runtime.
+An example of using this capacity in a function is shown below:
+
+```
+import Pkg
+Pkg.activate(".")
+
+import DataFrames: DataFrame
+
+import Volcanito: @select, materialize
+
+df = DataFrame(
+    a = rand(10_000),
+    b = rand(10_000),
+)
+
+function add_columns(df, x, y)
+    @select(df, new_col = `$x` + `$y`)
+end
+
+add_columns(df, :a, :b)
+
+isequal(
+    materialize(@select(df, new_col = a + b)),
+    materialize(add_columns(df, :a, :b)),
+)
+```
