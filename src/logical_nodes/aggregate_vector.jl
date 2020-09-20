@@ -4,7 +4,8 @@
 A logical node that represents an aggregation that operates directly on vectors
 rather than on a stream of scalars. It has two fields:
 
-1. `source`: A node describing a relation to be aggregated or a `GroupBy` node.
+1. `source`: A node describing an immediate relation to be aggregated or a
+    `GroupBy` node.
 2. `aggregates`: A tuple of `Expression` objects representing aggregations.
 """
 struct AggregateVector <: LogicalNode

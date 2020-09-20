@@ -40,7 +40,12 @@ function get_alias(@nospecialize(e::Any))::Tuple
     if isa(e, Expr) && e.head == :(=)
         alias, body = e.args[1], e.args[2]
     elseif isa(e, Expr) && e.head == :macrocall && isa(e.args[1], GlobalRef) && e.args[1].name == Symbol("@cmd")
-        alias, body = Symbol(remove_backticks(Meta.parse(e.args[3]))), e
+        if startswith(e.args[3], '$')
+            # TODO: Rethink this gensym()
+            alias, body = gensym(), e
+        else
+            alias, body = Symbol(remove_backticks(Meta.parse(e.args[3]))), e
+        end
     else
         alias, body = Symbol(remove_backticks(e)), e
     end

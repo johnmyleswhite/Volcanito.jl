@@ -25,7 +25,7 @@ paths = (
     "query/expression_operations/passes/tvl.jl",
     "query/expression_operations/forms/tuple_form.jl",
     "query/expression_operations/forms/broadcast_form.jl",
-    "query/expression_operations/expression/as_expr.jl",
+    "query/expression_operations/expression/column_names_tuple_expr.jl",
     "query/expression_operations/expression/expression.jl",
 
     "query/macros/select.jl",

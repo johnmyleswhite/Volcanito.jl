@@ -1,16 +1,24 @@
 module TestExpressionsIndexColumnNames
 
 import Test: @testset, @test
-import Volcanito: index_column_names
+import Volcanito: index_column_names, ColumnName
 
 test_cases = (
     (
-        input = (:a, :b),
-        output = Dict(:a => 1, :b => 2),
+        input = (ColumnName(:a, false), ColumnName(:b, false)),
+        output = Dict(ColumnName(:a, false) => 1, ColumnName(:b, false) => 2),
     ),
     (
-        input = (:a, :b, :c),
-        output = Dict(:a => 1, :b => 2, :c => 3),
+        input = (
+            ColumnName(:a, false),
+            ColumnName(:b, false),
+            ColumnName(:c, false),
+        ),
+        output = Dict(
+            ColumnName(:a, false) => 1,
+            ColumnName(:b, false) => 2,
+            ColumnName(:c, false) => 3,
+        ),
     ),
 )
 

@@ -1,13 +1,13 @@
 module TestExpressionsBroadcastForm
 
 import Test: @testset, @test
-import Volcanito: broadcast_form
+import Volcanito: broadcast_form, ColumnName
 import MacroTools: postwalk, rmlines
 
 @testset "broadcast_form" begin
     input = broadcast_form(
         :(y + x + $(Expr(:$, :z))),
-        (:x, :y),
+        (ColumnName(:x, false), ColumnName(:y, false)),
     )
     output = :((x, y) -> y + x + z)
 

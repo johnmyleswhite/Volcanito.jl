@@ -24,7 +24,13 @@ syntactic positions from being considered to refer to columns:
     is an `Expr` whose `head == :$`.
 5. The even-numbered positional arguments to a `comparison` expression are
     excluded. In Julia, this is an `Expr` whose `head == :comparison`.
-6. Any expression inside of backticks like `` `mean(col1)` `` is included.
+
+We also employ special rules to ensure certain symbols are included:
+
+1. Any expression inside of backticks like `` `mean(col1)` `` is included.
+2. Any spliced symbol inside of backticks like `$x` is included as a dynamic
+    name. It will represented in static expressions using a gensym, but the
+    actual name will be sourced dynamically at runtime.
 
 Whenever processing expressions, please process them in the order described
 above. It makes it easier to check completeness because you can treat the list

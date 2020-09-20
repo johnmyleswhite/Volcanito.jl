@@ -5,7 +5,6 @@ Given an expression, `e`, convert it into an anonymous function over tuples. It
 is assumed that `index` defines a mapping from symbols to indices that contains
 an entry for every symbol that should be treated as a column name in `e`.
 
-
 # Arguments
 
 1. `e::Any`: An expression to be converted into an anonymous function
@@ -43,10 +42,13 @@ julia> tuple_form(:(a + b), :t, Dict(:a => 1, :b => 2))
 """
 function tuple_form(
     @nospecialize(e::Any),
-    tuple_name::Any,
-    index::Dict{Symbol, Int},
+    column_names::NTuple{N, ColumnName},
     passes::NamedTuple = (locals=true, lift=false, tvl=true),
-)
+) where N
+    tuple_name = safe_tuple_name(e)
+
+    index = index_column_names(column_names)
+
     body = rewrite_column_names(e, tuple_name, index)
 
     if passes.locals
