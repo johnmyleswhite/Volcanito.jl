@@ -16,12 +16,12 @@ its index in the input tuple.
 # Examples
 
 ```
-julia> index_column_names((:a, :b))
-Dict{Symbol,Int64} with 2 entries:
-  :a => 1
-  :b => 2
+julia> index_column_names(((:a, false), (:b, false)))
+Dict{ColumnName,Int64} with 2 entries:
+  (:a, false) => 1
+  (:b, false) => 2
 ```
 """
-function index_column_names(column_names::NTuple{N, Symbol}) where N
-    Dict{Symbol,Int}(column_names .=> 1:length(column_names))
+function index_column_names(column_names::NTuple{N, ColumnName}) where N
+    Dict{ColumnName, Int}(column_names .=> 1:length(column_names))
 end

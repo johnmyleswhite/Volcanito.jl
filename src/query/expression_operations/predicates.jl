@@ -54,6 +54,19 @@ true
 
 julia> is_constant(:(a + b))
 false
+
+julia> is_constant(Expr(:\$, :z))
+true
 ```
 """
-is_constant(@nospecialize(e::Any)) = !(isa(e, Symbol) || isa(e, Expr))
+function is_constant(@nospecialize(e::Any))
+    if isa(e, Expr) && e.head == :$ && length(e.args) == 1 && isa(e.args[1], Symbol)
+        true
+    elseif isa(e, Expr)
+        false
+    elseif isa(e, Symbol)
+        false
+    else
+        true
+    end
+end

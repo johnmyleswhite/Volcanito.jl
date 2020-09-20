@@ -1,14 +1,13 @@
 module TestExpressionsTupleForm
 
 import Test: @testset, @test
-import Volcanito: tuple_form
+import Volcanito: tuple_form, ColumnName
 import MacroTools: postwalk, rmlines
 
 @testset "tuple_form" begin
     input = tuple_form(
         :(x + y),
-        :t,
-        Dict(:x => 1, :y => 2),
+        (ColumnName(:x, false), ColumnName(:y, false)),
     )
 
     output = :(t -> t[1] + t[2])
@@ -17,8 +16,7 @@ import MacroTools: postwalk, rmlines
 
     input = tuple_form(
         :(y + x + $(Expr(:$, :z))),
-        :t,
-        Dict(:x => 1, :y => 2),
+        (ColumnName(:x, false), ColumnName(:y, false)),
     )
 
     output = :(t -> t[2] + t[1] + z)

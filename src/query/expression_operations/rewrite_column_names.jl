@@ -23,8 +23,7 @@ See docs/expression_rules.md for details.
 julia> rewrite_column_names(
            :(a + b),
            :t,
-           Dict(:a => 1, :b => 2),
-           true,
+           Dict((:a, false) => 1, (:b, false) => 2),
        )
 :(t[1] + t[2])
 ```
@@ -32,8 +31,8 @@ julia> rewrite_column_names(
 function rewrite_column_names(
     @nospecialize(e::Any),
     tuple_name::Any,
-    index::Dict{Symbol, Int},
-)
+    index::Dict{ColumnName, Int},
+)::Any
     if isa(e, Expr) && e.head == :(=)
         Expr(
             :(=),
@@ -75,7 +74,11 @@ function rewrite_column_names(
         end
         Expr(e.head, rewritten_args..., )
     elseif isa(e, Expr) && e.head == :macrocall && isa(e.args[1], GlobalRef) && e.args[1].name == Symbol("@cmd")
-        Expr(:ref, tuple_name, index[Symbol(e.args[3])])
+        if startswith(e.args[3], '$')
+            Expr(:ref, tuple_name, index[ColumnName(Symbol(strip(e.args[3], '$')), true)])
+        else
+            Expr(:ref, tuple_name, index[ColumnName(Symbol(e.args[3]), false)])
+        end
     elseif isa(e, Expr)
         rewritten_args = Any[]
         for i in 1:length(e.args)
@@ -86,7 +89,7 @@ function rewrite_column_names(
         end
         Expr(e.head, rewritten_args...,)
     elseif isa(e, Symbol)
-        Expr(:ref, tuple_name, index[e])
+        Expr(:ref, tuple_name, index[ColumnName(e, false)])
     else
         e
     end
@@ -116,14 +119,14 @@ See docs/expression_rules.md for details.
 ```
 julia> rewrite_column_names_broadcast(
     :(a + b),
-    Dict(:a => gensym(), :b => gensym()),
+    Dict((:a, false) => gensym(), (:b, false) => gensym()),
 )
 :(var"##256" + var"##257")
 ```
 """
 function rewrite_column_names_broadcast(
     @nospecialize(e::Any),
-    mapping::Dict{Symbol, Symbol},
+    mapping::Dict{ColumnName, Symbol},
 )
     if isa(e, Expr) && e.head == :(=)
         Expr(
@@ -166,7 +169,11 @@ function rewrite_column_names_broadcast(
         end
         Expr(e.head, rewritten_args..., )
     elseif isa(e, Expr) && e.head == :macrocall && isa(e.args[1], GlobalRef) && e.args[1].name == Symbol("@cmd")
-        mapping[Symbol(e.args[3])]
+        if startswith(e.args[3], '$')
+            mapping[ColumnName(Symbol(strip(e.args[3], '$')), true)]
+        else
+            mapping[ColumnName(Symbol(e.args[3]), false)]
+        end
     elseif isa(e, Expr)
         rewritten_args = Any[]
         for i in 1:length(e.args)
@@ -177,7 +184,7 @@ function rewrite_column_names_broadcast(
         end
         Expr(e.head, rewritten_args...,)
     elseif isa(e, Symbol)
-        mapping[e]
+        mapping[ColumnName(e, false)]
     else
         e
     end

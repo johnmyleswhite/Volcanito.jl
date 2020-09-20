@@ -17,11 +17,13 @@ import DataFrames
 import MacroTools: inexpr, postwalk
 import Printf: @printf
 
+include("query/expression_operations/column_name.jl")
 include("query/expression_operations/remove_backticks.jl")
 include("query/expression_operations/validate.jl")
 include("query/expression_operations/get_alias.jl")
 include("query/expression_operations/find_column_names.jl")
 include("query/expression_operations/index_column_names.jl")
+include("query/expression_operations/gensym_index.jl")
 include("query/expression_operations/rewrite_column_names.jl")
 include("query/expression_operations/safe_tuple_name.jl")
 include("query/expression_operations/predicates.jl")
@@ -32,7 +34,7 @@ include("query/expression_operations/passes/tvl.jl")
 include("query/expression_operations/forms/tuple_form.jl")
 include("query/expression_operations/forms/broadcast_form.jl")
 include("query/expression_operations/forms/vector_form.jl")
-include("query/expression_operations/expression/as_expr.jl")
+include("query/expression_operations/expression/column_names_tuple_expr.jl")
 include("query/expression_operations/expression/expression.jl")
 include("query/expression_operations/join_utils.jl")
 

@@ -1,4 +1,4 @@
-# Function Specs
+# Expression Objects
 
 * alias: The alias that should be associated with the result of evaluating that
     expression.
@@ -12,5 +12,3 @@
     to rows passed as individual variables.
 * vector_form: The expression rewritten into a function that can be applied
     to columns passed as individual variables.
-* explicit_alias: Did `raw_form` contain the alias or was the alias constructed
-    as part of the `Expression` constructor?

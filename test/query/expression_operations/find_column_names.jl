@@ -1,28 +1,46 @@
 module TestExpressionsFindColumnNames
 
 import Test: @testset, @test
-import Volcanito: find_column_names
+import Volcanito: find_column_names, ColumnName
 
 test_cases = (
     (
         input = :(a + b + sin(c)),
-        output = (:a, :b, :c),
+        output = (
+            ColumnName(:a, false),
+            ColumnName(:b, false),
+            ColumnName(:c, false),
+        ),
     ),
     (
         input = :(x + sin(y) + cos(z^2) + $(Expr(:$, :a))),
-        output = (:x, :y, :z),
+        output = (
+            ColumnName(:x, false),
+            ColumnName(:y, false),
+            ColumnName(:z, false),
+        ),
     ),
     (
         input = :(1 + exp(x) + y),
-        output = (:x, :y),
+        output = (
+            ColumnName(:x, false),
+            ColumnName(:y, false),
+        ),
     ),
     (
         input = :(1 + exp(x) + y + $(Expr(:$, :z))),
-        output = (:x, :y),
+        output = (
+            ColumnName(:x, false),
+            ColumnName(:y, false),
+        ),
     ),
     (
         input = :(1 + exp(x, e = z) + y + $(Expr(:$, :z))),
-        output = (:x, :y, :z),
+        output = (
+            ColumnName(:x, false),
+            ColumnName(:y, false),
+            ColumnName(:z, false),
+        ),
     ),
 )
 
