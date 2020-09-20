@@ -9,10 +9,8 @@
 * tuple_form: The expression rewritten into a function that can be applied to
     rows passes as tuples.
 * broadcast_form: The expression rewritten into a function that can be applied
-    to rows passes as individual variables.
+    to rows passed as individual variables.
+* vector_form: The expression rewritten into a function that can be applied
+    to columns passed as individual variables.
 * explicit_alias: Did `raw_form` contain the alias or was the alias constructed
     as part of the `Expression` constructor?
-* is_constant: Was the `body` a single constant that doesn't need a function to
-    be computed?
-* is_column: Was the `body` the name of a single column that can be copied
-    rather than recomputed?

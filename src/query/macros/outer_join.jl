@@ -1,7 +1,7 @@
 macro outer_join(src1, src2, exprs...)
     Expr(
         :call,
-        :OuterJoin,
+        :Join,
         Expr(
             :tuple,
             analyze_src_expr(src1),

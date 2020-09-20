@@ -12,7 +12,4 @@ Currently, the following exist:
     * OrderBy
     * Projection
     * Selection
-    * InnerJoin
-    * LeftJoin
-    * RightJoin
-    * OuterJoin
+    * Join

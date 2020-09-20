@@ -40,7 +40,7 @@ function broadcast_form(
 ) where N
     # Map to gensym's
     safe_column_names = ntuple(i -> gensym(), length(column_names))
-    mapping = Dict(column_names .=> safe_column_names)
+    mapping = Dict{Symbol, Symbol}(column_names .=> safe_column_names)
 
     # Walk down tree replacing real names with safe names
     body = rewrite_column_names_broadcast(e, mapping)

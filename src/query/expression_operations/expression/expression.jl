@@ -18,7 +18,6 @@ julia> Expression(
     (a, b) -> a + b,
     (a, b) -> a + b,
     false,
-    false,
 )
 ```
 """
@@ -32,8 +31,6 @@ struct Expression
     broadcast_form::Any
     vector_form::Any
     explicit_alias::Bool
-    is_constant::Bool
-    is_column::Bool
 end
 
 # TODO: Base.show
@@ -50,9 +47,7 @@ function Base.show(io::IO, x::Expression)
         tuple_form: %s
         broadcast_form: %s
         vector_form: %s
-        explicit_alias: %s
-        is_constant: %s
-        is_column: %s""",
+        explicit_alias: %s""",
         x.alias,
         x.body,
         x.raw_form,
@@ -62,8 +57,6 @@ function Base.show(io::IO, x::Expression)
         x.broadcast_form,
         x.vector_form,
         x.explicit_alias,
-        x.is_constant,
-        x.is_column,
     )
     nothing
 end
@@ -113,8 +106,6 @@ function expression_expr(@nospecialize(e::Any))::Expr
             $(esc(broadcast_form(body, column_names))),
             $(esc(vector_form(body, column_names))),
             $(has_alias(e)),
-            $(is_constant(e)),
-            $(is_column(e)),
         )
     end
 end
