@@ -1,4 +1,7 @@
-# TODO: Document this
+"""
+Materialize an `OrderBy` into a `DataFrame` by computing the indices of the
+sorted rows, then returning that.
+"""
 function materialize(node::OrderBy)
     sorted_indices = sortperm(
         materialize(

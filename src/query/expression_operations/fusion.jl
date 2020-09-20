@@ -22,7 +22,7 @@ julia> fuse_conjunction((:(a > 0), :(b < 1)))
 :(a > 0 && b < 1)
 ```
 """
-function fuse_conjunction(bodies::Tuple)::Union{Nothing, Expr}
+function fuse_conjunction(bodies::Tuple)
     if isempty(bodies)
         nothing
     else

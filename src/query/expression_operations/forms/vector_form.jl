@@ -2,8 +2,8 @@
 # Description
 
 Given an expression, `e`, convert it into an anonymous function in the form
-used by broadcasting. The column names in the input table should be passes as
-the second argument, `column_names`.
+used by vector operations. The column names in the input table should be passes
+as the second argument, `column_names`.
 
 # Arguments
 
@@ -27,16 +27,17 @@ the second argument, `column_names`.
 # Examples
 
 ```
-julia> broadcast_form(:(a + b), (:a, :b))
+julia> vector_form(:(a + b), (:a, :b))
 :((a, b)->begin
           #= REPL[32]:58 =#
           a + b
       end)
 """
-function broadcast_form(
+# TODO: let y = 10; @select(df, sin(a + cos(b)) + $y); end
+function vector_form(
     @nospecialize(e::Any),
     column_names::NTuple{N, Symbol},
-    passes::NamedTuple = (locals=true, lift=false, tvl=true),
+    passes::NamedTuple = (locals=false, lift=false, tvl=false),
 ) where N
     # Map to gensym's
     safe_column_names = ntuple(i -> gensym(), length(column_names))

@@ -16,19 +16,21 @@ julia> Expression(
     Dict(:a => 1, :b => 2),
     t -> t[1] + t[2],
     (a, b) -> a + b,
+    (a, b) -> a + b,
     false,
     false,
 )
 ```
 """
-struct Expression{N, T1, T2}
+struct Expression
     alias::Symbol
     body::Any
     raw_form::Any
-    input_columns::NTuple{N, Symbol}
+    input_columns::Tuple
     column_index::Dict{Symbol, Int}
-    tuple_form::T1
-    broadcast_form::T2
+    tuple_form::Any
+    broadcast_form::Any
+    vector_form::Any
     explicit_alias::Bool
     is_constant::Bool
     is_column::Bool
@@ -47,6 +49,7 @@ function Base.show(io::IO, x::Expression)
         column_index: %s
         tuple_form: %s
         broadcast_form: %s
+        vector_form: %s
         explicit_alias: %s
         is_constant: %s
         is_column: %s""",
@@ -57,6 +60,7 @@ function Base.show(io::IO, x::Expression)
         x.column_index,
         x.tuple_form,
         x.broadcast_form,
+        x.vector_form,
         x.explicit_alias,
         x.is_constant,
         x.is_column,
@@ -107,6 +111,7 @@ function expression_expr(@nospecialize(e::Any))::Expr
             $(as_expr(index)),
             $(esc(tuple_form(body, safe_tuple_name(body), index))),
             $(esc(broadcast_form(body, column_names))),
+            $(esc(vector_form(body, column_names))),
             $(has_alias(e)),
             $(is_constant(e)),
             $(is_column(e)),

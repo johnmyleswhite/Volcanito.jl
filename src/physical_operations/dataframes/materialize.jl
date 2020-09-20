@@ -1,5 +1,9 @@
-# TODO: Document this
+"""
+A `DataFrame` is already materialized, so this is a no-op.
+"""
 materialize(df::DataFrames.DataFrame) = df
 
-# TODO: Document this
+"""
+A `GroupedDataFrame` is already materialized, so this is a no-op.
+"""
 materialize(gdf::DataFrames.GroupedDataFrame) = gdf
