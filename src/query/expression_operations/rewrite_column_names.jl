@@ -55,11 +55,11 @@ function rewrite_column_names(
         end
         Expr(
             :call,
-            e.args[1],
+            esc(e.args[1]),
             rewritten_args...,
         )
     elseif isa(e, Expr) && e.head == :$
-        e
+        esc(e)
     elseif isa(e, Expr) && e.head == :comparison
         rewritten_args = Any[]
         for i in 1:length(e.args)
@@ -69,7 +69,7 @@ function rewrite_column_names(
                     rewrite_column_names(e.args[i], tuple_name, index),
                 )
             else
-                push!(rewritten_args, e.args[i])
+                push!(rewritten_args, esc(e.args[i]))
             end
         end
         Expr(e.head, rewritten_args..., )
@@ -150,11 +150,11 @@ function rewrite_column_names_broadcast(
         end
         Expr(
             :call,
-            e.args[1],
+            esc(e.args[1]),
             rewritten_args...,
         )
     elseif isa(e, Expr) && e.head == :$
-        e
+        esc(e)
     elseif isa(e, Expr) && e.head == :comparison
         rewritten_args = Any[]
         for i in 1:length(e.args)
@@ -164,7 +164,7 @@ function rewrite_column_names_broadcast(
                     rewrite_column_names_broadcast(e.args[i], mapping),
                 )
             else
-                push!(rewritten_args, e.args[i])
+                push!(rewritten_args, esc(e.args[i]))
             end
         end
         Expr(e.head, rewritten_args..., )

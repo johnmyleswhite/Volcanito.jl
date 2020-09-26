@@ -38,6 +38,7 @@ include("query/expression_operations/expression/column_names_tuple_expr.jl")
 include("query/expression_operations/expression/expression.jl")
 include("query/expression_operations/join_utils.jl")
 
+include("query/macros/expression_macro_call.jl")
 include("query/macros/select.jl")
 include("query/macros/where.jl")
 include("query/macros/group_by.jl")

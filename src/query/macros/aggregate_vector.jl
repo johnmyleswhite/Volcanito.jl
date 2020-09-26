@@ -1,3 +1,4 @@
+
 # TODO: Document this.
 macro aggregate_vector(src, exprs...)
     Expr(
@@ -6,7 +7,7 @@ macro aggregate_vector(src, exprs...)
         esc(src),
         Expr(
             :tuple,
-            expression_expr.(exprs)...,
+            map(e -> expression_macro_call(e, __source__), exprs)...,
         ),
     )
 end
