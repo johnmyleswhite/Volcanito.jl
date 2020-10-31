@@ -43,7 +43,7 @@ julia> tuple_form(:(a + b), :t, Dict(:a => 1, :b => 2))
 function tuple_form(
     @nospecialize(e::Any),
     column_names::NTuple{N, ColumnName},
-    passes::NamedTuple = (locals=true, lift=false, tvl=true),
+    passes::NamedTuple = (locals=true, lift=true, tvl=true),
 ) where N
     tuple_name = safe_tuple_name(e)
 

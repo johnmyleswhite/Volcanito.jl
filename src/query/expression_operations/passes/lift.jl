@@ -1,3 +1,30 @@
+function missing_check(es)
+    if length(es) == 0
+        false
+    elseif length(es) == 1
+        Expr(:call, :ismissing, es[1])
+    elseif length(es) == 2
+        Expr(
+            :call,
+            :(|),
+            Expr(:call, :ismissing, es[1]),
+            Expr(:call, :ismissing, es[2]),
+        )
+    elseif length(es) >= 3
+        Expr(
+            :call,
+            :(|),
+            Expr(:call, :ismissing, es[1]),
+            missing_check(es[2:end])
+        )
+    end
+end
+
+# @test missing_check(()) === false
+# @test missing_check((:x, )) == :(ismissing(x))
+# @test missing_check((:x, :y)) == :(ismissing(x) | ismissing(y))
+# @test missing_check((:x, :y, :z)) == :(ismissing(x) | (ismissing(y) | ismissing(z)))
+
 """
 # Description
 
@@ -22,19 +49,37 @@ julia> ...
 """
 function lift_function_call(@nospecialize(e::Any))
     if isa(e, Expr) && e.head == :call
-        e
-        # TODO: Generate something like the following
-        # if uses_default_lifting(foo)
-        #     tmp1 = x
-        #     if ismissing(tmp1)
-        #         missing
-        #     else
-        #         f(tmp1)
-        #     end
-        # else
-        #     f′ = lift(f)
-        #     f′(args...)
-        # end
+        f = gensym()
+        args = if length(e.args) >= 2
+            e.args[2:end]
+        else
+            Any[]
+        end
+        temporaries = [gensym() for _ in args]
+
+        create_temporaries_expr = Expr(
+            :(=),
+            Expr(:tuple, temporaries...),
+            Expr(:tuple, args...),
+        )
+        missing_check_expr = missing_check(temporaries)
+        f_call_temporaries = Expr(:call, f, temporaries...)
+        f_call_raw = Expr(:call, f, args...)
+
+        quote
+            let $f = $(e.args[1])
+                if uses_default_lifting($f)
+                    $create_temporaries_expr
+                    if $missing_check_expr
+                        missing
+                    else
+                        $f_call_temporaries
+                    end
+                else
+                    $f_call_raw
+                end
+            end
+        end
     else
         e
     end
@@ -90,11 +135,25 @@ true
 """
 uses_default_lifting(f::Any) = true
 
-# TODO: Define lift(f:Any) = f
-# TODO: Add all Base functions with non-standard lifting
+# TODO: Add all Base functions with non-standard lifting as uses_default_lifting = false
 # TODO: Reflect over methodswith(typeof(missing))
 # Add all of these methods to the non-standard lifting list.
 # for m in methodswith(typeof(missing))
 #     uses_default_lifting(::typeof(m)) = false
-#     lift(::typeof(m)) = m
 # end
+
+macro lift(e)
+    lift_function_calls(e)
+end
+
+# foo(z::Int) = 42
+# foo(missing)
+# @lift foo(missing)
+
+# @macroexpand @lift(sin(2))
+# @macroexpand @lift(1 + 2)
+# @macroexpand @lift(1 + sin(2))
+
+# @lift(sin(2))
+# @lift(1 + 2)
+# @lift(1 + sin(2))

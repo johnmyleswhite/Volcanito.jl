@@ -260,3 +260,37 @@ isequal(
     materialize(add_columns(df, :a, :b)),
 )
 ```
+
+
+## Automatic Lifting
+
+One tedious part of working with potentially missing values in Julia is that
+functions defined on primitive types (e.g. `Int64`) don't automatically work
+when called on `missing`. Volcanito addresses this by automatically lifting all
+function calls to ensure that functions apply the canonical lifting rule, which
+is that a function returns `missing` if any of its arguments are `missing`.
+
+```
+import Pkg
+Pkg.activate(".")
+
+import DataFrames: DataFrame
+
+import Volcanito: @select
+
+df = DataFrame(
+    a = [1, missing],
+    b = [3, 4],
+)
+
+foo(x::Int64) = 17
+
+@select(df, new_col = foo(a))
+```
+
+To introduce behavior different than the canonical lifting rule, you'll need to
+do the following:
+
+```
+Volcanito.uses_default_lifting(::typeof(your_function)) = false
+```

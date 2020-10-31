@@ -36,7 +36,7 @@ julia> broadcast_form(:(a + b), (:a, :b))
 function broadcast_form(
     @nospecialize(e::Any),
     column_names::NTuple{N, ColumnName},
-    passes::NamedTuple = (locals=true, lift=false, tvl=true),
+    passes::NamedTuple = (locals=true, lift=true, tvl=true),
 ) where N
     safe_column_names, mapping = gensym_index(column_names)
 
