@@ -63,5 +63,7 @@ function tuple_form(
         body = tvl(body)
     end
 
+    body = escape_symbols(body, (tuple_name, :uses_default_lifting))
+
     :($tuple_name -> $body)
 end

@@ -55,5 +55,7 @@ function broadcast_form(
         body = tvl(body)
     end
 
+    body = escape_symbols(body, (safe_column_names..., :uses_default_lifting))
+
     :(($(safe_column_names...),) -> $body)
 end
