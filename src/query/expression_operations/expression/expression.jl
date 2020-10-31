@@ -91,9 +91,9 @@ function expression_expr(@nospecialize(e::Any))
             $(QuoteNode(body)),
             $(QuoteNode(e)),
             $(column_names_tuple_expr(column_names)),
-            $(esc(tuple_form(body, column_names))),
-            $(esc(broadcast_form(body, column_names))),
-            $(esc(vector_form(body, column_names))),
+            $(tuple_form(body, column_names)),
+            $(broadcast_form(body, column_names)),
+            $(vector_form(body, column_names)),
         )
     end
 end

@@ -10,7 +10,7 @@ import MacroTools: postwalk, rmlines
         (ColumnName(:x, false), ColumnName(:y, false)),
     )
 
-    output = :(t -> t[1] + t[2])
+    output = :(t -> $(Expr(:escape, :+))(t[1], t[2]))
 
     @test postwalk(rmlines, input) == postwalk(rmlines, output)
 
@@ -19,7 +19,7 @@ import MacroTools: postwalk, rmlines
         (ColumnName(:x, false), ColumnName(:y, false)),
     )
 
-    output = :(t -> t[2] + t[1] + z)
+    output = :(t -> $(Expr(:escape, :+))(t[2], t[1], $(Expr(:escape, :z))))
 
     @test postwalk(rmlines, input) == postwalk(rmlines, output)
 end
